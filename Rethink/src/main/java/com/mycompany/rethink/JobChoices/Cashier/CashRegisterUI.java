@@ -65,8 +65,12 @@ public class CashRegisterUI extends JFrame implements ActionListener {
     JButton close;
     public CashRegisterUI(){
         hashMap = new LinkedHashMap<Integer, Integer>();
-        product = CashierProduct();
-            
+        try {
+            product = CashierProduct();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
 
         JPanel productIDPanel = new JPanel();
         productIDPanel.setBounds(0,20,500,150);
