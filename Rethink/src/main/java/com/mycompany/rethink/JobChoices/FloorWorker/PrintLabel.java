@@ -13,6 +13,7 @@ package com.mycompany.rethink.JobChoices.FloorWorker;
 import com.google.gson.Gson;
 import com.mycompany.rethink.JobChoices.Cashier.Product;
 
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.BufferedReader;
@@ -24,12 +25,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Random;
 
-import javax.swing.BorderFactory;
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JTextField;
+import javax.swing.*;
 
 public class PrintLabel extends JFrame implements ActionListener {
 
@@ -41,6 +37,12 @@ public class PrintLabel extends JFrame implements ActionListener {
     JButton productNameEnter;
     JTextField productIDText;
     JTextField productNameText;
+
+    JLabel priceLabel;
+    JLabel aisleLabel;
+    JLabel nameLabel;
+    JLabel vatLabel;
+    JLabel idLabel;
 
 
     public PrintLabel(){
@@ -70,6 +72,29 @@ public class PrintLabel extends JFrame implements ActionListener {
         productIDPanel.add(productNameLabel);
         productIDPanel.add(productNameEnter);
 
+        JPanel labelPanel = new JPanel();
+        labelPanel.setBounds(200,300,350,100);
+        labelPanel.setBackground(Color.white);
+        labelPanel.setLayout(null);
+        labelPanel.setBorder(BorderFactory.createEtchedBorder());
+
+        //productIDText = makeTextField(120,20,280,40);
+        priceLabel = makeLabel(220,10,110,60, "$2,00");
+        idLabel = makeLabel(10,35,100,40, "#1");
+        nameLabel = makeLabel(10,0,200,60, "Product name");
+        aisleLabel = makeLabel(10,50,200,60, "Aisle 5");
+        vatLabel = makeLabel(220,60,110,40, "Vat 5%");
+        Font font = new Font(nameLabel.getFont().getName(), Font.BOLD, 20);
+        Font font2 = new Font(nameLabel.getFont().getName(), Font.PLAIN, 36);
+        nameLabel.setFont(font);
+        priceLabel.setFont(font2);
+
+        labelPanel.add(priceLabel);
+        labelPanel.add(nameLabel);
+        labelPanel.add(aisleLabel);
+        labelPanel.add(idLabel);
+        labelPanel.add(vatLabel);
+
         print = makeButton(300, 700, 75, 50, "Print");
         print.setHorizontalAlignment(JButton.CENTER);
         print.setVerticalAlignment(JButton.CENTER);
@@ -83,6 +108,7 @@ public class PrintLabel extends JFrame implements ActionListener {
         this.setSize(750,800);
         this.setLayout(null);
         this.add(productIDPanel);
+        this.add(labelPanel);
         this.add(print);
         this.add(close);
         this.setVisible(true);
@@ -91,15 +117,15 @@ public class PrintLabel extends JFrame implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if(e.getSource()==print){
-
+            JOptionPane.showMessageDialog(null, "The label is sent to the label printer.");
         }
-        Random rand = new Random();
         if(e.getSource()==productIDEnter){
             String id = productIDText.getText();
             int y = Integer.parseInt(id);
             for(Product x: product) {
                 if (x.getId() == y) {
                     productNameText.setText(x.getName());
+                    setLabelInfo(x);
                 }
             }
         }
@@ -108,6 +134,7 @@ public class PrintLabel extends JFrame implements ActionListener {
             for(Product x: product) {
                 if (x.getName().equals(name)) {
                     productIDText.setText(String.valueOf(x.getId()));
+                    setLabelInfo(x);
                 }
             }
         }
@@ -116,6 +143,15 @@ public class PrintLabel extends JFrame implements ActionListener {
             dispose();
         }
         
+    }
+
+    private void setLabelInfo(Product x) {
+        Random rand = new Random();
+        nameLabel.setText(x.getName());
+        aisleLabel.setText("Aisle " + (rand.nextInt(15) + 1));
+        idLabel.setText("#" + x.getId());
+        vatLabel.setText("Vat " + x.getVat_rate()*100 + "%");
+
     }
 
     public Product[] CashierProduct() throws IOException {
