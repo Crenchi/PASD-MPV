@@ -79,11 +79,11 @@ public class PrintLabel extends JFrame implements ActionListener {
         labelPanel.setBorder(BorderFactory.createEtchedBorder());
 
         //productIDText = makeTextField(120,20,280,40);
-        priceLabel = makeLabel(220,10,110,60, "$2,00");
-        idLabel = makeLabel(10,35,100,40, "#1");
-        nameLabel = makeLabel(10,0,200,60, "Product name");
-        aisleLabel = makeLabel(10,50,200,60, "Aisle 5");
-        vatLabel = makeLabel(220,60,110,40, "Vat 5%");
+        priceLabel = makeLabel(220,10,110,60, "\u20ac2,00");
+        idLabel = makeLabel(10,35,100,40, "#0");
+        nameLabel = makeLabel(10,0,200,60, "Default product");
+        aisleLabel = makeLabel(10,50,200,60, "Aisle 0");
+        vatLabel = makeLabel(220,60,110,40, "Vat 9.0%");
         Font font = new Font(nameLabel.getFont().getName(), Font.BOLD, 20);
         Font font2 = new Font(nameLabel.getFont().getName(), Font.PLAIN, 36);
         nameLabel.setFont(font);
